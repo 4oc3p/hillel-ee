@@ -7,6 +7,7 @@ public class AppleTest {
     @Test
     public void appleTest(){
         Apple apple = new Apple();
+        apple.setColor("RED");
     }
 
 }
