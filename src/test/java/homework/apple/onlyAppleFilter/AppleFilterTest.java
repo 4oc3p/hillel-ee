@@ -4,9 +4,6 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 
 import homework.apple.Apple;
-import homework.apple.onlyAppleFilter.AppleFilter;
-import homework.apple.onlyAppleFilter.ColorFilter;
-import homework.apple.onlyAppleFilter.WeightFilter;
 import org.junit.Before;
 import org.junit.Test;
 
