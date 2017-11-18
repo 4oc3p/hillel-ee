@@ -3,10 +3,13 @@ package homework.apple.dishes;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.*;
 import static org.junit.Assert.*;
 
 /**
@@ -16,7 +19,7 @@ public class DishTypeTest {
     Restaurant restaurant;
 
     @Before
-    public void fill(){
+    public void fill() {
         Dish apple = new Dish("Apple", 10, true, DishType.VEGETABLES);
         Dish peach = new Dish("Peach", 35, true, DishType.VEGETABLES);
         Dish beef = new Dish("Beef_1", 1000, false, DishType.BEEF);
@@ -51,7 +54,7 @@ public class DishTypeTest {
     @Test
     public void one_c() throws Exception {
         restaurant.menu.stream()
-                .sorted((a,b) -> a.isBio != b.isBio
+                .sorted((a, b) -> a.isBio != b.isBio
                         ? b.isBio.compareTo(a.isBio)
                         : a.name.compareTo(b.name))
                 .forEach(System.out::println);
@@ -60,7 +63,7 @@ public class DishTypeTest {
     @Test
     public void two() throws Exception {
         restaurant.menu.stream()
-                .collect(Collectors.groupingBy(Dish::getType, Collectors.averagingDouble(Dish::getCalories)))
+                .collect(groupingBy(Dish::getType, averagingInt(Dish::getCalories)))
                 .entrySet()
                 .forEach(System.out::println);
     }
@@ -68,11 +71,11 @@ public class DishTypeTest {
     @Test
     public void three() throws Exception {
         restaurant.menu.stream()
-                .collect(Collectors.groupingBy(Dish::getType, Collectors.collectingAndThen(Collectors.toList(),
-                                a -> a.stream()
-                                        .filter(b -> b.isBio)
-                                        .map(c -> c.name)
-                                        .collect(Collectors.toList()))))
+                .collect(groupingBy(Dish::getType, collectingAndThen(toList(),
+                        a -> a.stream()
+                                .filter(b -> b.isBio)
+                                .map(c -> c.name)
+                                .collect(toList()))))
                 .entrySet()
                 .forEach(System.out::println);
 //        Map<DishType, List<String>> q = new HashMap<>();
