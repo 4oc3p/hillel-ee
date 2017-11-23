@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 /**
@@ -16,11 +17,21 @@ public class RandServiceTest {
 
     @Test
     public void normalDistribution() throws Exception {
-        for (int i = 0; i < 100; i++) {
+        int iterCount = 100;
+        for (int i = 0; i < iterCount; i++) {
             String greeting = rnd.selectGreeting();
             normDist.putIfAbsent(greeting, 0);
             normDist.put(greeting, normDist.get(greeting) + 1);
         }
-        normDist.forEach((key, value) -> System.out.println(key + " selected " + value + " times"));
+
+        Integer var = 3;
+        Integer norm = iterCount / normDist.values().size();
+
+        int count = (int) normDist.values().stream()
+                .map(a -> a >= norm - var && a <= norm + var)
+                .filter(a -> !a)
+                .count();
+
+        assertThat(count, is(0));
     }
 }
