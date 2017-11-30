@@ -17,12 +17,13 @@ public class RandServiceTest {
 
     @Test
     public void normalDistribution() throws Exception {
-        int iterCount = 100;
+        int iterCount = 10;
         for (int i = 0; i < iterCount; i++) {
             String greeting = rnd.selectGreeting();
-            normDist.putIfAbsent(greeting, 0);
-            normDist.put(greeting, normDist.get(greeting) + 1);
+            normDist.compute(greeting, (k, v) -> v == null ? 1 : v + 1);
         }
+
+        normDist.forEach((a, b) -> System.out.println(a + " = " + b));
 
         Integer var = 3;
         Integer norm = iterCount / normDist.values().size();

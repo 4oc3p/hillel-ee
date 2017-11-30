@@ -10,7 +10,6 @@ import java.util.List;
  * Created by 4oc3p on 23.11.2017. hillelee
  */
 @Service
-@Data
 public class RandService {
     private final List<String> greetings = Arrays.asList("hello world", "hola world", "bonjour world");
 
