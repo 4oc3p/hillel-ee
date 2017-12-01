@@ -17,12 +17,12 @@ public class DoctorService {
                 .mapToInt(Integer::valueOf)
                 .max()
                 .orElse(-1);
-        doctor.id = ++doctorId;
+        doctor.setId(++doctorId);
         doctorRepository.getDoctors().put(doctorId, doctor);
     }
 
     public void updateDoctor(Doctor doctor, Integer id) {
-        doctor.id = id;
+        doctor.setId(id);
         doctorRepository.getDoctors().put(id, doctor);
     }
 

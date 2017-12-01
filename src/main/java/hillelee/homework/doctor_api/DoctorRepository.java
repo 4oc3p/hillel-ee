@@ -1,6 +1,7 @@
 package hillelee.homework.doctor_api;
 
 import lombok.Data;
+import lombok.Getter;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -9,8 +10,8 @@ import java.util.stream.Collectors;
 /**
  * Created by 4oc3p on 30.11.2017. hillelee
  */
-@Data
 @Repository
+@Getter
 public class DoctorRepository {
     private final Map<Integer, Doctor> doctors = new HashMap<>();
 
@@ -30,13 +31,13 @@ public class DoctorRepository {
 
     public List<Doctor> getDoctorsBySpecialization(String specialization) {
         return doctors.values().stream()
-                .filter(doc -> doc.specialization.equals(specialization))
+                .filter(doc -> doc.getSpecialization().equals(specialization))
                 .collect(Collectors.toList());
     }
 
     public List<Doctor> getDoctorsByFirstLetterOfName(Character character) {
         return doctors.values().stream()
-                .filter(doc -> doc.name.startsWith(character.toString()))
+                .filter(doc -> doc.getName().startsWith(character.toString()))
                 .collect(Collectors.toList());
     }
 

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Doctor {
-    Integer id;
-    String name;
-    String specialization;
+    private Integer id;
+    private String name;
+    private String specialization;
 }
