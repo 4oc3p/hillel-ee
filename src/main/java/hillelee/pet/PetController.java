@@ -9,16 +9,18 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @RestController()
 public class PetController {
-    private Map<Integer, Pet> pets = new HashMap<Integer, Pet>() {{
+    private Map<Integer, Pet> pets = new ConcurrentHashMap<Integer, Pet>() {{
         put(0, new Pet("Tom", "Cat", 3));
         put(1, new Pet("Jerry", "Mouse", 2));
     }};
-    private Integer counter = 1;
+    private AtomicInteger counter = new AtomicInteger(1);
 
     @GetMapping("/greeting")
     public String helloWorld() {
@@ -53,7 +55,7 @@ public class PetController {
 
     @PostMapping("/pets")
     public ResponseEntity<Void> createPet(@RequestBody Pet pet) {
-        pets.put(++counter, pet);
+        pets.put(counter.incrementAndGet(), pet);
         return ResponseEntity.created(URI.create("/pets/" + counter)).build();
     }
 
