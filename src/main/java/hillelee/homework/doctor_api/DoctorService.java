@@ -19,13 +19,11 @@ import java.util.stream.Collectors;
 public class DoctorService {
     DoctorRepository doctorRepository;
 
-    public void addDoctor(Doctor doctor) {
-        Integer doctorId = doctorRepository.getDoctors().keySet().stream()
-                .mapToInt(Integer::valueOf)
-                .max()
-                .orElse(-1);
-        doctor.setId(++doctorId);
+    public Doctor addDoctor(Doctor doctor) {
+        Integer doctorId = doctorRepository.getCounter().incrementAndGet();
+        doctor.setId(doctorId);
         doctorRepository.getDoctors().put(doctorId, doctor);
+        return doctor;
     }
 
     public void updateDoctor(Doctor doctor, Integer id) {
@@ -37,7 +35,7 @@ public class DoctorService {
         doctorRepository.getDoctors().remove(id);
     }
 
-    public List<Doctor> filterDoctor(Collection<Doctor> doc, Optional<String> spec, Optional<Character> name) {
+    public List<Doctor> filterDoctor(Optional<String> spec, Optional<Character> name) {
         Predicate<Doctor> filterBySpec = spec
                 .map(this::filterBySpec)
                 .orElse(pet -> true);
@@ -46,7 +44,7 @@ public class DoctorService {
                 .map(this::filterByName)
                 .orElse(pet -> true);
 
-        return doc.stream()
+        return doctorRepository.getAllDoctors().stream()
                 .filter(filterByName)
                 .filter(filterBySpec)
                 .collect(Collectors.toList());

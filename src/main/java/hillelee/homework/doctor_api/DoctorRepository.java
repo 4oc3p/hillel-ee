@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 @Getter
 public class DoctorRepository {
     private final Map<Integer, Doctor> doctors = new HashMap<>();
+    private AtomicInteger counter = new AtomicInteger(-1);
 
 /*    public DoctorRepository() {
         doctors.put(1, new Doctor(1, "q", "w"));

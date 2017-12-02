@@ -24,8 +24,7 @@ public class DoctorController {
     @GetMapping(value = "/doctors")
     public ResponseEntity<List<Doctor>> getAllDoctors(@RequestParam Optional<String> specialization,
                                                       @RequestParam Optional<Character> name) {
-        Collection<Doctor> allDoctors = doctorRepository.getAllDoctors();
-        return ResponseEntity.ok(doctorService.filterDoctor(allDoctors, specialization, name));
+        return ResponseEntity.ok(doctorService.filterDoctor(specialization, name));
     }
 
     @GetMapping(value = "/doctors/{id}")
@@ -40,8 +39,8 @@ public class DoctorController {
         if (doctor.getId() != null) {
             return ResponseEntity.status(400).build();
         }
-        doctorService.addDoctor(doctor);
-        return ResponseEntity.created(URI.create("/doctors/" + doctor.getId())).build();
+        Doctor savedDoctor = doctorService.addDoctor(doctor);
+        return ResponseEntity.created(URI.create("/doctors/" + savedDoctor.getId())).build();
     }
 
     @PutMapping(value = "/doctors/{id}")
