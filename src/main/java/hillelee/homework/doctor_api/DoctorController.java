@@ -17,34 +17,15 @@ import java.util.stream.Collectors;
 @RestController
 @AllArgsConstructor
 public class DoctorController {
-    private DoctorRepository doctorRepository;
-    private DoctorService doctorService;
+    private final DoctorRepository doctorRepository;
+    private final DoctorService doctorService;
 
 
     @GetMapping(value = "/doctors")
     public ResponseEntity<List<Doctor>> getAllDoctors(@RequestParam Optional<String> specialization,
                                                       @RequestParam Optional<Character> name) {
-
-        Predicate<Doctor> filterBySpec = specialization
-                .map(this::filterBySpec)
-                .orElse(pet -> true);
-
-        Predicate<Doctor> filterByName = name
-                .map(this::filterByName)
-                .orElse(pet -> true);
-
-        return ResponseEntity.ok(doctorRepository.getAllDoctors().stream()
-                .filter(filterByName)
-                .filter(filterBySpec)
-                .collect(Collectors.toList()));
-    }
-
-    private Predicate<Doctor> filterBySpec(String specialization) {
-        return doctor -> doctor.getSpecialization().equals(specialization);
-    }
-
-    private Predicate<Doctor> filterByName(Character name) {
-        return doctor -> doctor.getName().startsWith(name.toString());
+        Collection<Doctor> allDoctors = doctorRepository.getAllDoctors();
+        return ResponseEntity.ok(doctorService.filterDoctor(allDoctors, specialization, name));
     }
 
     @GetMapping(value = "/doctors/{id}")
