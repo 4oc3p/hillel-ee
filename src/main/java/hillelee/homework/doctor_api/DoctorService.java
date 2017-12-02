@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class DoctorService {
-    DoctorRepository doctorRepository;
+    private final DoctorRepository doctorRepository;
 
     public Doctor addDoctor(Doctor doctor) {
         Integer doctorId = doctorRepository.getCounter().incrementAndGet();
